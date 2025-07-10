@@ -71,12 +71,14 @@ func udpHandler() func(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err.Error())
 			http.Error(w, fmt.Sprintf("Error parsing mac address: %v", err), http.StatusBadRequest)
+			return
 		}
 
 		ipAddr, err := parseIp(r)
 		if err != nil {
 			log.Println(err.Error())
 			http.Error(w, fmt.Sprintf("Error parsing ip address: %v", err), http.StatusBadRequest)
+			return
 		}
 
 		err = wolCli.Wake(ipAddr.String(), hwAddr)
@@ -110,6 +112,7 @@ func rawHandler() func(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err.Error())
 			http.Error(w, fmt.Sprintf("Error parsing mac address: %v", err), http.StatusBadRequest)
+			return
 		}
 
 		err = wolCli.Wake(hwAddr)
